@@ -1,7 +1,6 @@
-= TKU Robot experiment homework
+= Robot Experiment Home Work 04-02
 :experimental:
 :toc: left
 
-==  Introduction
-
-The template project from tersaIC, but deletes the file that the system built.
+== Half adder and Full adder
+// TODO: add home work description
