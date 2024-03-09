@@ -2,5 +2,5 @@
 :experimental:
 :toc: left
 
-== Half adder and Full adder
+== Nios II - I/O Control
 // TODO: add home work description
