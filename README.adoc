@@ -1,7 +1,6 @@
-= TKU Robot experiment homework HW10-01
+= Robot Experiment Home Work 05-02
 :experimental:
 :toc: left
 
-==  Introduction
-
-The template project from tersaIC, but deletes the file that the system built.
+== Seven-segment display, switch, button
+// TODO: add home work description
