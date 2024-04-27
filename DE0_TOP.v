@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------
-// Copyright (c) 2009 by Terasic Technologies Inc. 
+// Copyright (c) 2009 by Terasic Technologies Inc.
 // --------------------------------------------------------------------
 //
 // Permission:
 //
 //   Terasic grants permission to use and modify this code for use
-//   in synthesis for all Terasic Development Boards and Altera Development 
-//   Kits made by Terasic.  Other use of this code, including the selling 
+//   in synthesis for all Terasic Development Boards and Altera Development
+//   Kits made by Terasic.  Other use of this code, including the selling
 //   ,duplication, or modification of any portion is strictly prohibited.
 //
 // Disclaimer:
@@ -15,11 +15,11 @@
 //   which illustrates how these types of functions can be implemented.
 //   It is the user's responsibility to verify their design for
 //   consistency and functionality through the use of formal
-//   verification methods.  Terasic provides no warranty regarding the use 
+//   verification methods.  Terasic provides no warranty regarding the use
 //   or functionality of this code.
 //
 // --------------------------------------------------------------------
-//           
+//
 //                     Terasic Technologies Inc
 //                     356 Fu-Shin E. Rd Sec. 1. JhuBei City,
 //                     HsinChu County, Taiwan
@@ -43,7 +43,7 @@
 
 module DE0_TOP
 	(
-		////////////////////	Clock Input	 	////////////////////	 
+		////////////////////	Clock Input	 	////////////////////
 		CLOCK_50,						//	50 MHz
 		CLOCK_50_2,						//	50 MHz
 		////////////////////	Push Button		////////////////////
@@ -69,7 +69,7 @@ module DE0_TOP
 		/////////////////////	SDRAM Interface		////////////////
 		DRAM_DQ,						//	SDRAM Data bus 16 Bits
 		DRAM_ADDR,						//	SDRAM Address bus 13 Bits
-		DRAM_LDQM,						//	SDRAM Low-byte Data Mask 
+		DRAM_LDQM,						//	SDRAM Low-byte Data Mask
 		DRAM_UDQM,						//	SDRAM High-byte Data Mask
 		DRAM_WE_N,						//	SDRAM Write Enable
 		DRAM_CAS_N,						//	SDRAM Column Address Strobe
@@ -207,7 +207,7 @@ wire	[2:0]	BUTTON; // Button after debounce
 
 
 //=======================================================
-//  Button Debounce Circit 
+//  Button Debounce Circit
 //=======================================================
 
 // This is BUTTON[0] Debounce Circuit //
@@ -215,27 +215,46 @@ button_debouncer	button_debouncer_inst0(
 	.clk(CLOCK_50),
 	.rst_n(1'b1),
 	.data_in(ORG_BUTTON[0]),
-	.data_out(BUTTON[0])			
+	.data_out(BUTTON[0])
 	);
-	
+
 // This is BUTTON[1] Debounce Circuit //
 button_debouncer	button_debouncer_inst1(
 	.clk(CLOCK_50),
 	.rst_n(1'b1),
 	.data_in(ORG_BUTTON[1]),
-	.data_out(BUTTON[1])			
+	.data_out(BUTTON[1])
 	);
-	
+
 // This is BUTTON[2] Debounce Circuit //
 button_debouncer	button_debouncer_inst2(
 	.clk(CLOCK_50),
 	.rst_n(1'b1),
 	.data_in(ORG_BUTTON[2]),
-	.data_out(BUTTON[2])			
+	.data_out(BUTTON[2])
 	);
 
 //=======================================================
 //  Structural coding
 //=======================================================
+
+DE0Qsys u0 (
+    .clk_50m_clk       (CLOCK_50),       //     clk_50m.clk
+    .reset_reset_n     (BUTTON[0]),     //       reset.reset_n
+    .dram_clk_clk      (DRAM_CLK),      //    dram_clk.clk
+    .sdram_wires_addr  (DRAM_ADDR),  // sdram_wires.addr
+    .sdram_wires_ba    ({DRAM_BA_1, DRAM_BA_0}),    //            .ba
+    .sdram_wires_cas_n (DRAM_CAS_N), //            .cas_n
+    .sdram_wires_cke   (DRAM_CKE),   //            .cke
+    .sdram_wires_cs_n  (DRAM_CS_N),  //            .cs_n
+    .sdram_wires_dq    (DRAM_DQ),    //            .dq
+    .sdram_wires_dqm   ({DRAM_UDQM, DRAM_LDQM}),   //            .dqm
+    .sdram_wires_ras_n (DRAM_RAS_N), //            .ras_n
+    .sdram_wires_we_n  (DRAM_WE_N),  //            .we_n
+    .led_export        (LEDG),        //         led.export
+    .areset_export     (0),     //      areset.export
+    .locked_export     (/* no use*/),     //      locked.export
+    .phasedone_export  (/* no use*/)   //   phasedone.export
+);
 
 endmodule
